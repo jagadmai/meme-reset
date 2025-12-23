@@ -2,94 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>THE GREAT MEME RESET</title>
+  <title>Do Not Click</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body style="
   margin:0;
-  background:black;
-  color:#22c55e;
-  font-family:'Courier New', monospace;
-  overflow:hidden;
+  font-family:Arial, sans-serif;
+  background:#0f172a;
+  color:white;
 ">
 
-  <div id="root" style="
+  <div style="
     min-height:100vh;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
     text-align:center;
-    padding:24px;
+    padding:20px;
   ">
-    <h1 style="font-size:46px; letter-spacing:5px;">THE GREAT MEME RESET</h1>
-    <p>The countdown has started.</p>
-    <div id="countdown" style="font-size:40px; margin:20px 0;">00:00:10</div>
-    <p>When it hits zero, control dissolves.</p>
+
+    <h1 style="font-size:42px;">Welcome.</h1>
+    <p style="color:#cbd5f5; max-width:500px;">
+      This website contains buttons.<br>
+      They do things.
+    </p>
+
+    <div style="
+      margin-top:30px;
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+      width:100%;
+      max-width:320px;
+    ">
+
+      <button onclick="sayHi()" style="buttonStyle()">Say Hi</button>
+      <button onclick="changeBg()" style="buttonStyle()">Change Background</button>
+      <button onclick="moveButton(this)" style="buttonStyle()">Catch Me</button>
+      <button onclick="rickroll()" style="buttonStyle()">Mystery Button</button>
+
+    </div>
+
+    <p id="msg" style="margin-top:30px; color:#94a3b8;"></p>
+
   </div>
 
   <script>
-    // ---------- COUNTDOWN ----------
-    let t = 10;
-    const cd = document.getElementById("countdown");
-    const root = document.getElementById("root");
+    function buttonStyle() {
+      return `
+        padding:15px;
+        font-size:18px;
+        border:none;
+        border-radius:14px;
+        background:#2563eb;
+        color:white;
+        cursor:pointer;
+      `;
+    }
 
-    const tick = setInterval(() => {
-      cd.textContent = "00:00:" + (t < 10 ? "0" : "") + t;
-      if (t === 0) { clearInterval(tick); chaos(); }
-      t--;
-    }, 1000);
+    function sayHi() {
+      document.getElementById("msg").innerText = "Hi 👋 thanks for clicking.";
+    }
 
-    // ---------- CHAOS ----------
-    function chaos() {
-      const words = [
-        "R3S3T","RE$ET","█████","ERROR","OVERRIDE",
-        "NO ESCAPE","MEMORY LEAK","STACK OVERFLOW",
-        "CORRUPTED","SIGNAL LOST","DESYNC","PANIC"
-      ];
+    function changeBg() {
+      const colors = ["#020617", "#0f172a", "#1e293b", "#020617"];
+      document.body.style.background =
+        colors[Math.floor(Math.random() * colors.length)];
+    }
 
-      // MASS TEXT STORM
-      for (let i=0;i<180;i++){
-        const s = document.createElement("div");
-        s.textContent = words[Math.floor(Math.random()*words.length)];
-        s.style.position="fixed";
-        s.style.left=Math.random()*100+"vw";
-        s.style.top=Math.random()*100+"vh";
-        s.style.fontSize=(10+Math.random()*40)+"px";
-        s.style.opacity=0.15+Math.random()*0.85;
-        document.body.appendChild(s);
-      }
+    function moveButton(btn) {
+      btn.style.position = "relative";
+      btn.style.left = Math.random() * 100 - 50 + "px";
+      btn.style.top = Math.random() * 60 - 30 + "px";
+    }
 
-      let flashes = 0;
-      const storm = setInterval(() => {
-        // SCREEN SHAKE + ROTATE
-        root.style.transform =
-          `translate(${Math.random()*80-40}px,${Math.random()*80-40}px)
-           rotate(${Math.random()*20-10}deg)`;
-
-        // STROBE
-        document.body.style.background =
-          ["#000","#020617","#14532d","#7f1d1d","#fff"][Math.floor(Math.random()*5)];
-        document.body.style.color =
-          ["#22c55e","#16a34a","#000","#fff"][Math.floor(Math.random()*4)];
-
-        // TEXT CORRUPTION
-        cd.textContent = words[Math.floor(Math.random()*words.length)];
-        cd.style.fontSize = (28+Math.random()*80)+"px";
-        cd.style.letterSpacing = (Math.random()*10)+"px";
-
-        flashes++;
-        if (flashes > 40) {
-          clearInterval(storm);
-          root.style.transform="none";
-          document.body.style.background="black";
-          document.body.style.color="#22c55e";
-          cd.style.fontSize="42px";
-          cd.style.letterSpacing="4px";
-          cd.textContent="THE RESET HAS BEGUN";
-        }
-      }, 90);
+    function rickroll() {
+      window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
     }
   </script>
 
