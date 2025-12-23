@@ -2,128 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>The Great Meme Reset</title>
+  <title>THE GREAT MEME RESET</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body style="
   margin:0;
-  font-family:'Courier New', monospace;
   background:black;
   color:#22c55e;
+  font-family:'Courier New', monospace;
   overflow:hidden;
 ">
 
-  <div id="container" style="
+  <div id="root" style="
     min-height:100vh;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
     text-align:center;
-    padding:30px;
+    padding:24px;
   ">
-
-    <h1 style="font-size:46px; letter-spacing:4px;">
-      THE GREAT MEME RESET
-    </h1>
-
+    <h1 style="font-size:46px; letter-spacing:5px;">THE GREAT MEME RESET</h1>
     <p>The countdown has started.</p>
-
-    <div id="countdown" style="
-      font-size:38px;
-      letter-spacing:3px;
-      margin:25px 0;
-      color:#4ade80;
-    ">
-      00:00:10
-    </div>
-
-    <p style="max-width:650px;">
-      When the timer reaches zero,<br>
-      control is revoked.
-    </p>
-
-    <p style="
-      position:fixed;
-      bottom:15px;
-      font-size:12px;
-      color:#14532d;
-    ">
-      THEY ARE ALREADY WATCHING
-    </p>
-
+    <div id="countdown" style="font-size:40px; margin:20px 0;">00:00:10</div>
+    <p>When it hits zero, control dissolves.</p>
   </div>
 
-  <!-- CHAOS SCRIPT -->
   <script>
-    let timeLeft = 10;
-    const countdownEl = document.getElementById("countdown");
-    const container = document.getElementById("container");
+    // ---------- COUNTDOWN ----------
+    let t = 10;
+    const cd = document.getElementById("countdown");
+    const root = document.getElementById("root");
 
-    const glitchTexts = [
-      "R3S3T", "RE$ET", "█████", "ERROR",
-      "NO ESCAPE", "SYSTEM FAILURE", "CORRUPTED"
-    ];
-
-    // Simple beep using Web Audio (no files)
-    function beep(freq, duration) {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.frequency.value = freq;
-      osc.start();
-      gain.gain.exponentialRampToValueAtTime(
-        0.00001, ctx.currentTime + duration
-      );
-      setTimeout(() => { osc.stop(); ctx.close(); }, duration * 1000);
-    }
-
-    const timer = setInterval(() => {
-      countdownEl.innerHTML =
-        "00:00:" + (timeLeft < 10 ? "0" : "") + timeLeft;
-
-      if (timeLeft === 0) {
-        clearInterval(timer);
-        startChaos();
-      }
-
-      timeLeft--;
+    const tick = setInterval(() => {
+      cd.textContent = "00:00:" + (t < 10 ? "0" : "") + t;
+      if (t === 0) { clearInterval(tick); chaos(); }
+      t--;
     }, 1000);
 
-    function startChaos() {
+    // ---------- CHAOS ----------
+    function chaos() {
+      const words = [
+        "R3S3T","RE$ET","█████","ERROR","OVERRIDE",
+        "NO ESCAPE","MEMORY LEAK","STACK OVERFLOW",
+        "CORRUPTED","SIGNAL LOST","DESYNC","PANIC"
+      ];
+
+      // MASS TEXT STORM
+      for (let i=0;i<180;i++){
+        const s = document.createElement("div");
+        s.textContent = words[Math.floor(Math.random()*words.length)];
+        s.style.position="fixed";
+        s.style.left=Math.random()*100+"vw";
+        s.style.top=Math.random()*100+"vh";
+        s.style.fontSize=(10+Math.random()*40)+"px";
+        s.style.opacity=0.15+Math.random()*0.85;
+        document.body.appendChild(s);
+      }
+
       let flashes = 0;
+      const storm = setInterval(() => {
+        // SCREEN SHAKE + ROTATE
+        root.style.transform =
+          `translate(${Math.random()*80-40}px,${Math.random()*80-40}px)
+           rotate(${Math.random()*20-10}deg)`;
 
-      const chaos = setInterval(() => {
-        // Text corruption
-        countdownEl.innerHTML =
-          glitchTexts[Math.floor(Math.random() * glitchTexts.length)];
-
-        // Screen shake
-        container.style.transform =
-          "translate(" + (Math.random()*40-20) + "px," +
-                         (Math.random()*40-20) + "px)";
-
-        // Background flicker
+        // STROBE
         document.body.style.background =
-          flashes % 2 === 0 ? "#020617" : "#14532d";
+          ["#000","#020617","#14532d","#7f1d1d","#fff"][Math.floor(Math.random()*5)];
+        document.body.style.color =
+          ["#22c55e","#16a34a","#000","#fff"][Math.floor(Math.random()*4)];
 
-        // Random beeps
-        beep(200 + Math.random()*800, 0.1);
+        // TEXT CORRUPTION
+        cd.textContent = words[Math.floor(Math.random()*words.length)];
+        cd.style.fontSize = (28+Math.random()*80)+"px";
+        cd.style.letterSpacing = (Math.random()*10)+"px";
 
         flashes++;
-
-        // End chaos
-        if (flashes > 25) {
-          clearInterval(chaos);
-          container.style.transform = "none";
-          document.body.style.background = "black";
-          countdownEl.style.color = "#22c55e";
-          countdownEl.innerHTML = "THE RESET HAS BEGUN";
+        if (flashes > 40) {
+          clearInterval(storm);
+          root.style.transform="none";
+          document.body.style.background="black";
+          document.body.style.color="#22c55e";
+          cd.style.fontSize="42px";
+          cd.style.letterSpacing="4px";
+          cd.textContent="THE RESET HAS BEGUN";
         }
-      }, 120);
+      }, 90);
     }
   </script>
 
