@@ -11,9 +11,10 @@
   font-family:'Courier New', monospace;
   background:black;
   color:#22c55e;
+  overflow:hidden;
 ">
 
-  <div style="
+  <div id="container" style="
     min-height:100vh;
     display:flex;
     flex-direction:column;
@@ -23,21 +24,14 @@
     padding:30px;
   ">
 
-    <h1 style="
-      font-size:46px;
-      letter-spacing:4px;
-      margin-bottom:20px;
-    ">
+    <h1 style="font-size:46px; letter-spacing:4px;">
       THE GREAT MEME RESET
     </h1>
 
-    <p style="font-size:18px;">
-      The countdown has started.
-    </p>
+    <p>The countdown has started.</p>
 
-    <!-- COUNTDOWN -->
     <div id="countdown" style="
-      font-size:36px;
+      font-size:38px;
       letter-spacing:3px;
       margin:25px 0;
       color:#4ade80;
@@ -45,34 +39,10 @@
       00:00:10
     </div>
 
-    <p style="max-width:650px; font-size:18px;">
+    <p style="max-width:650px;">
       When the timer reaches zero,<br>
-      there is no return.
+      control is revoked.
     </p>
-
-    <button onclick="document.getElementById('hidden').style.display='block'" style="
-      margin-top:35px;
-      padding:16px 40px;
-      font-size:18px;
-      border:1px solid #22c55e;
-      border-radius:50px;
-      background:black;
-      color:#22c55e;
-      cursor:pointer;
-    ">
-      ACCEPT THE RESET
-    </button>
-
-    <div id="hidden" style="
-      display:none;
-      margin-top:35px;
-      max-width:650px;
-      font-size:16px;
-    ">
-      <p>You have acknowledged the signal.</p>
-      <p>Spread the memes.<br>Laugh with intent.</p>
-      <p>The meme remembers.</p>
-    </div>
 
     <p style="
       position:fixed;
@@ -85,20 +55,31 @@
 
   </div>
 
-  <!-- FAKE COUNTDOWN + FULL GLITCH AT 0 -->
+  <!-- CHAOS SCRIPT -->
   <script>
     let timeLeft = 10;
     const countdownEl = document.getElementById("countdown");
+    const container = document.getElementById("container");
 
     const glitchTexts = [
-      "R3S3T",
-      "RE$ET",
-      "RΞSET",
-      "ERROR",
-      "█████",
-      "NO ESCAPE",
-      "RESET"
+      "R3S3T", "RE$ET", "█████", "ERROR",
+      "NO ESCAPE", "SYSTEM FAILURE", "CORRUPTED"
     ];
+
+    // Simple beep using Web Audio (no files)
+    function beep(freq, duration) {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = freq;
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(
+        0.00001, ctx.currentTime + duration
+      );
+      setTimeout(() => { osc.stop(); ctx.close(); }, duration * 1000);
+    }
 
     const timer = setInterval(() => {
       countdownEl.innerHTML =
@@ -106,31 +87,44 @@
 
       if (timeLeft === 0) {
         clearInterval(timer);
-
-        let glitchCount = 0;
-        const glitchTimer = setInterval(() => {
-          countdownEl.innerHTML =
-            glitchTexts[Math.floor(Math.random() * glitchTexts.length)];
-
-          countdownEl.style.transform =
-            "translate(" +
-            (Math.random() * 30 - 15) +
-            "px," +
-            (Math.random() * 20 - 10) +
-            "px)";
-
-          glitchCount++;
-
-          if (glitchCount > 12) {
-            clearInterval(glitchTimer);
-            countdownEl.style.transform = "none";
-            countdownEl.innerHTML = "THE RESET HAS BEGUN";
-          }
-        }, 120);
+        startChaos();
       }
 
       timeLeft--;
     }, 1000);
+
+    function startChaos() {
+      let flashes = 0;
+
+      const chaos = setInterval(() => {
+        // Text corruption
+        countdownEl.innerHTML =
+          glitchTexts[Math.floor(Math.random() * glitchTexts.length)];
+
+        // Screen shake
+        container.style.transform =
+          "translate(" + (Math.random()*40-20) + "px," +
+                         (Math.random()*40-20) + "px)";
+
+        // Background flicker
+        document.body.style.background =
+          flashes % 2 === 0 ? "#020617" : "#14532d";
+
+        // Random beeps
+        beep(200 + Math.random()*800, 0.1);
+
+        flashes++;
+
+        // End chaos
+        if (flashes > 25) {
+          clearInterval(chaos);
+          container.style.transform = "none";
+          document.body.style.background = "black";
+          countdownEl.style.color = "#22c55e";
+          countdownEl.innerHTML = "THE RESET HAS BEGUN";
+        }
+      }, 120);
+    }
   </script>
 
 </body>
