@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Great Meme Reset</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="
+  margin:0;
+  font-family:'Courier New', monospace;
+  background:black;
+  color:#22c55e;
+">
+
+  <div style="
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:30px;
+  ">
+
+    <h1 style="
+      font-size:46px;
+      letter-spacing:4px;
+      margin-bottom:20px;
+    ">
+      THE GREAT MEME RESET
+    </h1>
+
+    <p style="font-size:18px;">
+      The countdown has started.
+    </p>
+
+    <!-- COUNTDOWN -->
+    <div id="countdown" style="
+      font-size:36px;
+      letter-spacing:3px;
+      margin:25px 0;
+      color:#4ade80;
+    ">
+      00:00:10
+    </div>
+
+    <p style="max-width:650px; font-size:18px;">
+      When the timer reaches zero,<br>
+      there is no return.
+    </p>
+
+    <button onclick="document.getElementById('hidden').style.display='block'" style="
+      margin-top:35px;
+      padding:16px 40px;
+      font-size:18px;
+      border:1px solid #22c55e;
+      border-radius:50px;
+      background:black;
+      color:#22c55e;
+      cursor:pointer;
+    ">
+      ACCEPT THE RESET
+    </button>
+
+    <div id="hidden" style="
+      display:none;
+      margin-top:35px;
+      max-width:650px;
+      font-size:16px;
+    ">
+      <p>You have acknowledged the signal.</p>
+      <p>Spread the memes.<br>Laugh with intent.</p>
+      <p>The meme remembers.</p>
+    </div>
+
+    <p style="
+      position:fixed;
+      bottom:15px;
+      font-size:12px;
+      color:#14532d;
+    ">
+      THEY ARE ALREADY WATCHING
+    </p>
+
+  </div>
+
+  <!-- FAKE COUNTDOWN + FULL GLITCH AT 0 -->
+  <script>
+    let timeLeft = 10;
+    const countdownEl = document.getElementById("countdown");
+
+    const glitchTexts = [
+      "R3S3T",
+      "RE$ET",
+      "RΞSET",
+      "ERROR",
+      "█████",
+      "NO ESCAPE",
+      "RESET"
+    ];
+
+    const timer = setInterval(() => {
+      countdownEl.innerHTML =
+        "00:00:" + (timeLeft < 10 ? "0" : "") + timeLeft;
+
+      if (timeLeft === 0) {
+        clearInterval(timer);
+
+        let glitchCount = 0;
+        const glitchTimer = setInterval(() => {
+          countdownEl.innerHTML =
+            glitchTexts[Math.floor(Math.random() * glitchTexts.length)];
+
+          countdownEl.style.transform =
+            "translate(" +
+            (Math.random() * 30 - 15) +
+            "px," +
+            (Math.random() * 20 - 10) +
+            "px)";
+
+          glitchCount++;
+
+          if (glitchCount > 12) {
+            clearInterval(glitchTimer);
+            countdownEl.style.transform = "none";
+            countdownEl.innerHTML = "THE RESET HAS BEGUN";
+          }
+        }, 120);
+      }
+
+      timeLeft--;
+    }, 1000);
+  </script>
+
+</body>
+</html>
