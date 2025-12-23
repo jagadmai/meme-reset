@@ -1,22 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Experiments</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body style="font-family:Arial; text-align:center; padding:40px;">
-  <h1>Experiments</h1>
-  <p>Choose one.</p>
-  <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-    <a href="click.html">Click</a>
-    <a href="slider.html">Slider</a>
-    <a href="bored.html">Bored?</a>
-    <a href="hold.html">Hold</a>
-  </div>
+<meta charset="UTF-8">
+<title>Do Something</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Secret access -->
-  <p style="margin-top:40px; opacity:.3; cursor:pointer;"
-     onclick="window.location='secret.html'">.</p>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(270deg, #ff0080, #7928ca, #2afadf);
+    background-size: 600% 600%;
+    animation: bg 8s ease infinite;
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+  }
+
+  @keyframes bg {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-top: 60px;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% {transform: scale(1);}
+    50% {transform: scale(1.05);}
+    100% {transform: scale(1);}
+  }
+
+  button {
+    margin: 15px;
+    padding: 18px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    background: white;
+    color: black;
+    transition: transform .2s, background .2s;
+  }
+
+  button:hover {
+    transform: scale(1.1) rotate(-2deg);
+    background: yellow;
+  }
+
+  #box {
+    margin-top: 40px;
+    font-size: 1.5rem;
+    min-height: 60px;
+  }
+
+  .floating {
+    position: absolute;
+    font-size: 2rem;
+    animation: float 4s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes float {
+    from {transform: translateY(100vh);}
+    to {transform: translateY(-10vh);}
+  }
+</style>
+</head>
+
+<body>
+
+<h1>DO SOMETHING.</h1>
+
+<button onclick="clickMe()">Click me</button>
+<button onclick="change()">Change colors</button>
+<button onclick="spawn()">More chaos</button>
+<button onclick="rick()">Mystery</button>
+
+<div id="box">Waiting…</div>
+
+<script>
+let clicks = 0;
+
+function clickMe() {
+  clicks++;
+  box.innerText = clicks < 5 ? "Again." :
+                  clicks < 15 ? "You like this, don’t you?" :
+                  "Okay stop now.";
+}
+
+function change() {
+  document.body.style.filter =
+    `hue-rotate(${Math.random()*360}deg)`;
+}
+
+function spawn() {
+  const e = document.createElement("div");
+  e.className = "floating";
+  e.innerText = ["🔥","💀","🌈","👁️","⚡","😂"][Math.floor(Math.random()*6)];
+  e.style.left = Math.random()*100 + "vw";
+  e.style.animationDuration = (Math.random()*3+2)+"s";
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),5000);
+}
+
+function rick() {
+  window.location.href = "https://www.youtube.com/watch?v=QDia3e12czc";
+}
+</script>
+
 </body>
 </html>
