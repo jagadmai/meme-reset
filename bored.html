@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="text-align:center;font-family:Arial;padding:40px;">
+<h1>Are you bored?</h1>
+<button onclick="y()">Yes</button>
+<button onclick="n()">No</button>
+<p id="r"></p>
+<script>
+const a=["Same.","Obviously.","Still here though.","Figures."];
+function y(){ r.innerText=a[Math.floor(Math.random()*a.length)]; }
+function n(){ r.innerText="You sure?"; }
+</script>
+</body>
+</html>

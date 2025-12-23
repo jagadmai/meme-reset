@@ -1,118 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Experiments</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
-<body style="
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#ffffff;
-  color:#000;
-  text-align:center;
-">
-
-  <!-- MENU -->
-  <div style="padding:20px; border-bottom:1px solid #e5e7eb;">
-    <button onclick="show('clicker')">Click</button>
-    <button onclick="show('slider')">Slider</button>
-    <button onclick="show('bored')">Bored?</button>
-    <button onclick="show('hold')">Hold</button>
+<body style="font-family:Arial; text-align:center; padding:40px;">
+  <h1>Experiments</h1>
+  <p>Choose one.</p>
+  <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+    <a href="click.html">Click</a>
+    <a href="slider.html">Slider</a>
+    <a href="bored.html">Bored?</a>
+    <a href="hold.html">Hold</a>
   </div>
 
-  <!-- CLICKER -->
-  <div id="clicker" class="exp">
-    <h1>You have clicked</h1>
-    <h2 id="count">0</h2>
-    <button onclick="clicks()">Click</button>
-    <p id="clickMsg"></p>
-  </div>
-
-  <!-- SLIDER -->
-  <div id="slider" class="exp" style="display:none;">
-    <h1>Move the slider</h1>
-    <input type="range" min="0" max="100" oninput="slide(this.value)">
-    <p id="slideText">Nothing.</p>
-  </div>
-
-  <!-- BORED -->
-  <div id="bored" class="exp" style="display:none;">
-    <h1>Are you bored?</h1>
-    <button onclick="boredYes()">Yes</button>
-    <button onclick="boredNo()">No</button>
-    <p id="boredText"></p>
-  </div>
-
-  <!-- HOLD -->
-  <div id="hold" class="exp" style="display:none;">
-    <h1>Hold the button</h1>
-    <button
-      onmousedown="startHold()"
-      onmouseup="stopHold()"
-      ontouchstart="startHold()"
-      ontouchend="stopHold()"
-    >
-      Hold
-    </button>
-    <p id="holdTime">0.0s</p>
-  </div>
-
-  <script>
-    // menu
-    function show(id){
-      document.querySelectorAll('.exp').forEach(e=>e.style.display='none');
-      document.getElementById(id).style.display='block';
-    }
-
-    // clicker
-    let c=0;
-    function clicks(){
-      c++;
-      document.getElementById("count").innerText=c;
-      document.getElementById("clickMsg").innerText =
-        c<10?"Keep going":
-        c<30?"Why are you still clicking?":
-        c<60?"Impressive dedication":
-        "Okay stop.";
-    }
-
-    // slider
-    function slide(v){
-      document.getElementById("slideText").innerText =
-        v==0?"Nothing.":
-        v<50?"Almost.":
-        v<100?"Very close.":
-        "You did it.";
-    }
-
-    // bored
-    function boredYes(){
-      const msgs=[
-        "Same.",
-        "Obviously.",
-        "Then why are you here?",
-        "Still clicking though."
-      ];
-      boredText.innerText=msgs[Math.floor(Math.random()*msgs.length)];
-    }
-    function boredNo(){
-      boredText.innerText="You sure about that?";
-    }
-
-    // hold
-    let t, start;
-    function startHold(){
-      start=Date.now();
-      t=setInterval(()=>{
-        holdTime.innerText=((Date.now()-start)/1000).toFixed(1)+"s";
-      },100);
-    }
-    function stopHold(){
-      clearInterval(t);
-    }
-  </script>
-
+  <!-- Secret access -->
+  <p style="margin-top:40px; opacity:.3; cursor:pointer;"
+     onclick="window.location='secret.html'">.</p>
 </body>
 </html>

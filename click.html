@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="text-align:center;font-family:Arial;padding:40px;">
+<h1 id="num">0</h1>
+<button onclick="go()">Click</button>
+<p id="msg"></p>
+<script>
+let c=0;
+function go(){
+  c++;
+  num.innerText=c;
+  num.style.transform="scale(1.2)";
+  setTimeout(()=>num.style.transform="scale(1)",100);
+  msg.innerText=c<10?"Keep going":c<30?"Still clicking?":"Okay wow.";
+}
+</script>
+</body>
+</html>
