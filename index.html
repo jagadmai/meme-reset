@@ -2,84 +2,115 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Do Not Click</title>
+  <title>Experiments</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body style="
   margin:0;
   font-family:Arial, sans-serif;
-  background:#0f172a;
-  color:white;
+  background:#ffffff;
+  color:#000;
+  text-align:center;
 ">
 
-  <div style="
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
-  ">
+  <!-- MENU -->
+  <div style="padding:20px; border-bottom:1px solid #e5e7eb;">
+    <button onclick="show('clicker')">Click</button>
+    <button onclick="show('slider')">Slider</button>
+    <button onclick="show('bored')">Bored?</button>
+    <button onclick="show('hold')">Hold</button>
+  </div>
 
-    <h1 style="font-size:42px;">Welcome.</h1>
-    <p style="color:#cbd5f5; max-width:500px;">
-      This website contains buttons.<br>
-      They do things.
-    </p>
+  <!-- CLICKER -->
+  <div id="clicker" class="exp">
+    <h1>You have clicked</h1>
+    <h2 id="count">0</h2>
+    <button onclick="clicks()">Click</button>
+    <p id="clickMsg"></p>
+  </div>
 
-    <div style="
-      margin-top:30px;
-      display:flex;
-      flex-direction:column;
-      gap:15px;
-      width:100%;
-      max-width:320px;
-    ">
+  <!-- SLIDER -->
+  <div id="slider" class="exp" style="display:none;">
+    <h1>Move the slider</h1>
+    <input type="range" min="0" max="100" oninput="slide(this.value)">
+    <p id="slideText">Nothing.</p>
+  </div>
 
-      <button onclick="sayHi()" style="buttonStyle()">Say Hi</button>
-      <button onclick="changeBg()" style="buttonStyle()">Change Background</button>
-      <button onclick="moveButton(this)" style="buttonStyle()">Catch Me</button>
-      <button onclick="rickroll()" style="buttonStyle()">Mystery Button</button>
+  <!-- BORED -->
+  <div id="bored" class="exp" style="display:none;">
+    <h1>Are you bored?</h1>
+    <button onclick="boredYes()">Yes</button>
+    <button onclick="boredNo()">No</button>
+    <p id="boredText"></p>
+  </div>
 
-    </div>
-
-    <p id="msg" style="margin-top:30px; color:#94a3b8;"></p>
-
+  <!-- HOLD -->
+  <div id="hold" class="exp" style="display:none;">
+    <h1>Hold the button</h1>
+    <button
+      onmousedown="startHold()"
+      onmouseup="stopHold()"
+      ontouchstart="startHold()"
+      ontouchend="stopHold()"
+    >
+      Hold
+    </button>
+    <p id="holdTime">0.0s</p>
   </div>
 
   <script>
-    function buttonStyle() {
-      return `
-        padding:15px;
-        font-size:18px;
-        border:none;
-        border-radius:14px;
-        background:#2563eb;
-        color:white;
-        cursor:pointer;
-      `;
+    // menu
+    function show(id){
+      document.querySelectorAll('.exp').forEach(e=>e.style.display='none');
+      document.getElementById(id).style.display='block';
     }
 
-    function sayHi() {
-      document.getElementById("msg").innerText = "Hi 👋 thanks for clicking.";
+    // clicker
+    let c=0;
+    function clicks(){
+      c++;
+      document.getElementById("count").innerText=c;
+      document.getElementById("clickMsg").innerText =
+        c<10?"Keep going":
+        c<30?"Why are you still clicking?":
+        c<60?"Impressive dedication":
+        "Okay stop.";
     }
 
-    function changeBg() {
-      const colors = ["#020617", "#0f172a", "#1e293b", "#020617"];
-      document.body.style.background =
-        colors[Math.floor(Math.random() * colors.length)];
+    // slider
+    function slide(v){
+      document.getElementById("slideText").innerText =
+        v==0?"Nothing.":
+        v<50?"Almost.":
+        v<100?"Very close.":
+        "You did it.";
     }
 
-    function moveButton(btn) {
-      btn.style.position = "relative";
-      btn.style.left = Math.random() * 100 - 50 + "px";
-      btn.style.top = Math.random() * 60 - 30 + "px";
+    // bored
+    function boredYes(){
+      const msgs=[
+        "Same.",
+        "Obviously.",
+        "Then why are you here?",
+        "Still clicking though."
+      ];
+      boredText.innerText=msgs[Math.floor(Math.random()*msgs.length)];
+    }
+    function boredNo(){
+      boredText.innerText="You sure about that?";
     }
 
-    function rickroll() {
-      window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    // hold
+    let t, start;
+    function startHold(){
+      start=Date.now();
+      t=setInterval(()=>{
+        holdTime.innerText=((Date.now()-start)/1000).toFixed(1)+"s";
+      },100);
+    }
+    function stopHold(){
+      clearInterval(t);
     }
   </script>
 
